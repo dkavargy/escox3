@@ -1,0 +1,47 @@
+[
+  {
+    "id": "green_skills_not_in_original_escox",
+    "severity": "info",
+    "detail": "6 of 570 green skills are absent from the original ESCOX skills.csv (different ESCO release). They are fully supported in ESCOX 3.0 because the green module embeds the supplied green-skill file directly.",
+    "examples": [
+      "supervise crop production",
+      "research recycling grant opportunities",
+      "dispose waste",
+      "handle waste",
+      "safety engineering",
+      "assist in plant propagation"
+    ]
+  },
+  {
+    "id": "nace_hierarchy_titles_incomplete",
+    "severity": "info",
+    "detail": "The crosswalk lists 706 NACE codes at mixed levels ({'class': 424, 'group': 219, 'division': 54, 'section': 9}). Titles of 103 parent codes (including 13 sections) are not present in the supplied file. ESCOX 3.0 shows those parent codes without a title rather than inventing one. Import the official Eurostat NACE Rev. 2.1 structure to complete the hierarchy (python -m escox3 import-nace <csv>).",
+    "examples": [
+      "A",
+      "A02",
+      "B07.2",
+      "C10.3",
+      "C11.0",
+      "C15.1",
+      "C17.1",
+      "C18.1",
+      "C20.1",
+      "C20.5",
+      "C23.4",
+      "C23.5",
+      "C23.6",
+      "C23.9",
+      "C24.4"
+    ]
+  },
+  {
+    "id": "green_occupation_reference_missing",
+    "severity": "critical",
+    "detail": "No green-occupation definition or occupation-skill relation file was supplied. The supplied files contain green SKILLS (greenSkillsCollection_en.csv) and an occupation->NACE crosswalk, but nothing that labels ESCO occupations or ISCO groups as green. ESCOX 3.0 therefore identifies occupations and their verified ISCO-08 codes, but reports their green status as 'undetermined' instead of guessing. To enable it, place the official ESCO download occupationSkillRelations_en.csv (same ESCO release as the crosswalk, v1.2) in escox3/data/raw/ and run `python -m escox3 build-reference`, or import an authoritative green-occupation list with `python -m escox3 import-green-occupations <csv>`."
+  },
+  {
+    "id": "green_skills_version_unstated",
+    "severity": "info",
+    "detail": "greenSkillsCollection_en.csv does not state its ESCO release; the crosswalk states ESCO 1.2. Record the release used in publications."
+  }
+]

@@ -1,0 +1,13 @@
+# original ESCOX
+sentence-transformers
+Flask
+pandas
+waitress
+# ESCOX 3.0
+llama-cpp-python>=0.3.9
+huggingface-hub
+openpyxl
+rapidfuzz
+pdfplumber
+pypdf
+python-docx

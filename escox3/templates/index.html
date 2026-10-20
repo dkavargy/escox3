@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ESCOX 3.0 · Green Skills, Occupations &amp; Sector Intelligence</title>
+  <meta name="description" content="ESCOX 3.0 turns unstructured labour-market text into green skills (ESCO), occupations (ISCO-08) and economic sectors (NACE Rev. 2.1) using semantic retrieval and LLM validation." />
+  <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='img/favicon.svg') }}" />
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='img/favicon-32.png') }}" />
+  <link rel="apple-touch-icon" href="{{ url_for('static', filename='img/logo-mark-180.png') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/escox3.css') }}" />
+  <script>
+    window.ESCOX = { llmAvailable: {{ 'true' if llm_available else 'false' }}, llmName: {{ llm_name|tojson }}, defaultMode: {{ default_mode|tojson }} };
+  </script>
+  <script defer src="{{ url_for('static', filename='js/escox3.js') }}"></script>
+</head>
+<body>
+<header class="hero">
+  <div class="hero__inner">
+    <div class="brand">
+      <img src="{{ url_for('static', filename='img/logo-light.svg') }}" alt="ESCOX 3.0" class="brand__logo" width="300" height="72" />
+      <p class="brand__subtitle">Green Skills, Occupations &amp; Sector Intelligence</p>
+    </div>
+    <div class="hero__status">
+      {% if llm_available %}
+        <span class="pill pill--ok" title="A local instruction-following LLM validates every retrieved candidate"><span class="dot"></span>LLM active · {{ llm_name or 'local model' }}</span>
+      {% else %}
+        <span class="pill pill--warn" title="Start with an LLM backend to enable contextual validation"><span class="dot"></span>LLM off · retrieval only</span>
+      {% endif %}
+      <span class="pill pill--ghost">ESCO v1.2 · ISCO-08 · NACE Rev. 2.1</span>
+    </div>
+  </div>
+  <ol class="pipeline" aria-label="How ESCOX 3.0 works">
+    <li><span class="pipeline__n">1</span>Unstructured text</li>
+    <li><span class="pipeline__n">2</span>Semantic retrieval</li>
+    <li><span class="pipeline__n">3</span>LLM contextual analysis</li>
+    <li><span class="pipeline__n">4</span>Taxonomy validation</li>
+    <li><span class="pipeline__n">5</span>Structured knowledge</li>
+  </ol>
+</header>
+
+<main class="wrap">
+  <!-- ============================ INPUT ============================ -->
+  <section class="card card--input" aria-labelledby="input-title">
+    <div class="card__head">
+      <h2 id="input-title">1 · Your text</h2>
+      <div class="examples" role="group" aria-label="Load an example">
+        <span class="examples__label">Try:</span>
+        <button type="button" class="chip-btn" data-example="job">Job advertisement</button>
+        <button type="button" class="chip-btn" data-example="cv">CV</button>
+        <button type="button" class="chip-btn" data-example="course">Course description</button>
+      </div>
+    </div>
+
+    <div class="dropzone" id="dropzone">
+      <label for="text" class="sr-only">Text to analyse</label>
+      <textarea id="text" rows="10" spellcheck="false"
+        placeholder="Paste a job advertisement, CV, course description, or other unstructured text here..."></textarea>
+      <div class="dropzone__overlay" aria-hidden="true">Drop a TXT, PDF or DOCX file</div>
+    </div>
+    <div class="input-bar">
+      <label class="upload-btn" tabindex="0">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0-12 4.5 4.5M12 3 7.5 7.5M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/></svg>
+        Upload TXT · PDF · DOCX
+        <input type="file" id="file" accept=".txt,.text,.md,.pdf,.docx,text/plain,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
+      </label>
+      <span id="file-info" class="muted" aria-live="polite"></span>
+      <span class="spacer"></span>
+      <span id="char-count" class="muted">0 characters</span>
+      <button type="button" class="link-btn" id="clear-btn">Clear</button>
+    </div>
+  </section>
+
+  <!-- ============================ MODULES ============================ -->
+  <section class="card" aria-labelledby="modules-title">
+    <div class="card__head">
+      <h2 id="modules-title">2 · What should ESCOX extract?</h2>
+      <span class="muted">Select one or more</span>
+    </div>
+    <div class="modules" role="group" aria-labelledby="modules-title">
+      <button type="button" class="module module--skills" data-module="green_skills" aria-pressed="true">
+        <span class="module__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19c0-8 5-13 14-14 0 9-5 14-13 14H5Zm0 0 7-7"/></svg></span>
+        <span class="module__title">Green skills</span>
+        <span class="module__desc">ESCO green skills &amp; knowledge</span>
+        <span class="module__check" aria-hidden="true"></span>
+      </button>
+      <button type="button" class="module module--occ" data-module="green_occupations" aria-pressed="true">
+        <span class="module__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16v11H4zM9 8V5h6v3M4 13h16"/></svg></span>
+        <span class="module__title">Green occupations</span>
+        <span class="module__desc">ESCO occupations · ISCO-08 codes</span>
+        <span class="module__check" aria-hidden="true"></span>
+      </button>
+      <button type="button" class="module module--sec" data-module="sectors" aria-pressed="true">
+        <span class="module__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 20V10l5 3V10l5 3V6l8 4v10H3Zm4-3h2m4 0h2"/></svg></span>
+        <span class="module__title">Economic sectors</span>
+        <span class="module__desc">NACE Rev. 2.1 activities</span>
+        <span class="module__check" aria-hidden="true"></span>
+      </button>
+    </div>
+
+    <details class="settings">
+      <summary>Advanced settings</summary>
+      <div class="settings__grid">
+        <label>Analysis mode
+          <select id="mode">
+            <option value="hybrid">Hybrid · retrieval + LLM validation (ESCOX 3.0)</option>
+            <option value="retrieval">Semantic retrieval only (original ESCOX approach)</option>
+            <option value="llm_only">LLM only · no retrieval (experimental)</option>
+          </select>
+        </label>
+        <label>Sector label language
+          <select id="lang">
+            {% for l in languages %}<option value="{{ l }}" {% if l == 'en' %}selected{% endif %}>{{ l|upper }}</option>{% endfor %}
+          </select>
+        </label>
+      </div>
+      <p class="muted small">Skill and occupation labels are shown in English (the language of the supplied files). NACE titles are available in 24 EU languages from the ESCO-NACE crosswalk.</p>
+    </details>
+
+    <div class="action">
+      <button type="button" id="analyse-btn" class="btn-primary">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.3-4.3M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z"/></svg>
+        Analyse Text
+      </button>
+      <p id="form-error" class="form-error" role="alert"></p>
+    </div>
+  </section>
+
+  <!-- ============================ LOADING ============================ -->
+  <section id="loading" class="card loading" hidden aria-live="polite">
+    <div class="loading__steps">
+      <span data-step="0">Splitting text</span>
+      <span data-step="1">Retrieving candidates</span>
+      <span data-step="2">LLM contextual analysis</span>
+      <span data-step="3">Validating against taxonomies</span>
+    </div>
+    <div class="loading__bar"><span></span></div>
+    <p class="muted small" id="loading-note">A local LLM on CPU can take up to a minute or two per document.</p>
+  </section>
+
+  <!-- ============================ RESULTS ============================ -->
+  <section id="results" hidden aria-labelledby="results-title">
+    <div class="results-head">
+      <h2 id="results-title">3 · Structured knowledge</h2>
+      <div class="results-head__meta" id="results-meta"></div>
+      <div class="export">
+        <button type="button" class="btn-ghost" id="export-json">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0 4-4m-4 4-4-4M5 20h14"/></svg>JSON</button>
+        <button type="button" class="btn-ghost" id="export-csv">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0 4-4m-4 4-4-4M5 20h14"/></svg>CSV</button>
+      </div>
+    </div>
+    <div id="warnings"></div>
+    <div class="result-grid" id="result-grid"></div>
+
+    <section class="card evidence-card" id="evidence-card" hidden>
+      <div class="card__head">
+        <h3>Evidence in your text</h3>
+        <div class="legend">
+          <span class="legend__item legend--skills">Green skill</span>
+          <span class="legend__item legend--occ">Occupation</span>
+          <span class="legend__item legend--sec">Sector</span>
+        </div>
+      </div>
+      <div id="evidence-text" class="evidence-text"></div>
+    </section>
+
+    <details class="card tech" id="tech">
+      <summary>Technical details · LLM calls, models &amp; provenance</summary>
+      <div id="tech-body"></div>
+    </details>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="footer__inner">
+    <img src="{{ url_for('static', filename='img/logo-mark.svg') }}" alt="" width="28" height="28" />
+    <p>ESCOX {{ version }} · extends the open-source ESCOX skill &amp; occupation extractor. Reference data: ESCO green skills collection,
+      ESCO–NACE Rev. 2.1 crosswalk (ESCO v1.2), ISCO-08 groups. Identifiers are kept for traceability; labels come verbatim from the supplied files.</p>
+    <button type="button" class="link-btn" id="gaps-btn">Reference data &amp; known gaps</button>
+  </div>
+  <div id="gaps" class="footer__gaps" hidden></div>
+</footer>
+
+<template id="tpl-empty"><p class="empty"></p></template>
+</body>
+</html>

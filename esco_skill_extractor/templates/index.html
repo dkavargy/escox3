@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="{{ url_for('static', filename='eu.webp') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='index.css') }}"
+    />
+    <script>
+      window.SERVER = `http://{{ host }}:{{ port }}`;
+    </script>
+    <script src="{{ url_for('static', filename='index.js') }}"></script>
+    <title>ESCO Skill Extractor</title>
+  </head>
+  <body>
+    <img
+      src="{{ url_for('static', filename='eu.webp') }}"
+      alt="The flag of EU."
+    />
+    <div class="container">
+      <h1>ESCO Skill Extractor</h1>
+      <form>
+        <!-- Entity to extract -->
+        <fieldset>
+          <legend>Choose the entity to extract</legend>
+          <label>
+            Skills
+            <input type="radio" name="entity" value="skills" checked />
+          </label>
+          <label>
+            Occupations
+            <input type="radio" name="entity" value="occupations" />
+          </label>
+        </fieldset>
+        <!-- Text -->
+        <textarea
+          id="text"
+          placeholder="Paste your text here to extract skills or occupations."
+          rows="20"
+        ></textarea>
+        <!-- Submit -->
+        <button
+          id="submit-button"
+          type="submit"
+          onclick="extractEntity(event)"
+        ></button>
+      </form>
+      <!-- Output -->
+      <output id="output"> </output>
+    </div>
+  </body>
+</html>

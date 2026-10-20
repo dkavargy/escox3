@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+*.bin
+escox3/data/cache/
+evaluation/results/
+*.egg-info/
+.venv/
+venv/

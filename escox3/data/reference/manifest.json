@@ -1,0 +1,97 @@
+{
+  "built_at": "2026-10-20T07:01:42+00:00",
+  "sources": [
+    {
+      "file": "greenSkillsCollection_en.csv",
+      "sha256": "a9494b98f6931b3e5e52c2fb157b82af3a5c31156d0b520d7d7a22e89bb27f21",
+      "bytes": 399440
+    },
+    {
+      "file": "ESCO-NACE_rev._2.1_crosswalk.xlsx",
+      "sha256": "b0e6db8589cd7a54e13aeb4c9062d5188c93f381e99dff36586ca2eb4dc30f9e",
+      "bytes": 1736872
+    },
+    {
+      "file": "skills.csv",
+      "sha256": "dcf78a95d7c86104d05c3535b7a330ac8a1e91410ac5eb69c2fea7f558ace75b",
+      "bytes": 6223383
+    },
+    {
+      "file": "occupations.csv",
+      "sha256": "9ee4c589c0d12af55024ed077050eeb7b1584aaa999a9d81babc7e6a68229a62",
+      "bytes": 2946914
+    }
+  ],
+  "taxonomy_versions": {
+    "ESCO (crosswalk)": "1.2",
+    "NACE": "Rev. 2.1",
+    "ISCO": "ISCO-08 (groups as distributed with the original ESCOX occupations.csv)",
+    "green skills": "ESCO green skills collection (release not stated in file)"
+  },
+  "counts": {
+    "green_skills": 570,
+    "occupations": 3039,
+    "isco_groups": 619,
+    "nace_codes": 706,
+    "occupation_nace_links": 4564,
+    "green_occupation_shares": 0
+  },
+  "data_quality": {
+    "green_skills": {
+      "rows": 570,
+      "duplicate_uris": 0,
+      "duplicate_preferred_labels": 0,
+      "empty_altLabels": 38,
+      "empty_description": 0,
+      "empty_broader": 0,
+      "skillType_counts": {
+        "skill/competence": 384,
+        "knowledge": 186
+      },
+      "reuseLevel_counts": {
+        "sector-specific": 329,
+        "cross-sector": 166,
+        "occupation-specific": 70,
+        "transversal": 5
+      },
+      "status_counts": {
+        "released": 570
+      }
+    },
+    "isco_groups": {
+      "rows": 619,
+      "level_counts": {
+        "unit": 436,
+        "minor": 130,
+        "sub_major": 43,
+        "major": 10
+      }
+    },
+    "crosswalk": {
+      "rows": 4564,
+      "unique_occupations": 3039,
+      "unique_nace_codes": 706,
+      "duplicate_rows_uri_nace": 0,
+      "empty_cells": {},
+      "nace_codes_per_occupation": {
+        "count": 3039.0,
+        "mean": 1.502,
+        "std": 1.352,
+        "min": 1.0,
+        "25%": 1.0,
+        "50%": 1.0,
+        "75%": 2.0,
+        "max": 25.0
+      },
+      "versions": {
+        "ESCO version": "1.2",
+        "NACE revision": "2.1"
+      }
+    },
+    "occupations": {
+      "rows": 3039,
+      "not_in_original_escox": 0,
+      "original_occupations_without_crosswalk": 0
+    }
+  }
+}

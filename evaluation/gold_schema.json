@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ESCOX 3.0 gold annotation record (one per JSONL line)",
+  "type": "object",
+  "required": ["id", "text", "gold"],
+  "properties": {
+    "id": {"type": "string"},
+    "doc_type": {"type": "string", "description": "job_ad | cv | course | training | profile | other"},
+    "language": {"type": "string", "description": "ISO 639-1 code of the text"},
+    "source": {"type": "string"},
+    "annotator": {"type": "string"},
+    "text": {"type": "string"},
+    "example_only": {"type": "boolean"},
+    "gold": {
+      "type": "object",
+      "properties": {
+        "green_skills": {"type": "array", "items": {"type": "string", "pattern": "^http://data\\.europa\\.eu/esco/skill/"}},
+        "occupations": {"type": "array", "items": {"type": "string", "pattern": "^http://data\\.europa\\.eu/esco/occupation/"}},
+        "sectors": {"type": "array", "items": {"type": "string", "pattern": "^[A-Z](\\d{2}(\\.\\d{1,2})?)?$"}}
+      }
+    }
+  }
+}

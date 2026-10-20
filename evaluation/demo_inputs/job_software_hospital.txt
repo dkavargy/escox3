@@ -1,0 +1,3 @@
+Software Developer – Clinical Information Systems
+
+St. Luke's General Hospital provides inpatient and outpatient medical care to 400,000 residents. Our in-house IT team is looking for a software developer to maintain the electronic health record system, build interfaces between laboratory devices and the hospital database, and develop web applications for clinicians in Java and Python.

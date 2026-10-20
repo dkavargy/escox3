@@ -1,0 +1,3 @@
+pytest
+reportlab
+transformers  # only for the optional "transformers" LLM backend

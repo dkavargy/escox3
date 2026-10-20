@@ -1,0 +1,5 @@
+// One JSON object per line. Lines starting with // and records with "example_only": true are ignored.
+// gold.green_skills = ESCO URIs from greenSkillsCollection_en.csv; gold.occupations = ESCO occupation URIs;
+// gold.sectors = NACE Rev. 2.1 codes exactly as written in the ESCO-NACE crosswalk (e.g. "D35.11", "K62").
+// Labels must be assigned by trained HUMAN annotators following ANNOTATION_GUIDELINES.md.
+{"example_only": true, "id": "doc-0001", "doc_type": "job_ad", "language": "en", "source": "<where the text comes from>", "annotator": "<annotator id>", "text": "<full document text>", "gold": {"green_skills": ["http://data.europa.eu/esco/skill/<uuid>"], "occupations": ["http://data.europa.eu/esco/occupation/<uuid>"], "sectors": ["<NACE code>"]}}

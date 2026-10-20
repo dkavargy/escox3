@@ -1,0 +1,8 @@
+include README.md LICENSE requirements.txt
+include esco_skill_extractor/data/*.csv
+include esco_skill_extractor/static/*
+include esco_skill_extractor/templates/*
+recursive-include escox3/data/raw *
+recursive-include escox3/data/reference *
+recursive-include escox3/templates *
+recursive-include escox3/static *

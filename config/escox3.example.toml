@@ -1,0 +1,33 @@
+# ESCOX 3.0 example configuration — python -m escox3 serve --config config/escox3.example.toml
+embedding_model = "all-MiniLM-L6-v2"     # multilingual option: "paraphrase-multilingual-MiniLM-L12-v2"
+mode = "hybrid"                           # hybrid | retrieval | llm_only
+label_language = "en"
+port = 8000
+
+[retrieval]
+skill_candidate_threshold = 0.40
+skill_accept_threshold = 0.60
+skill_max_candidates = 20
+occupation_candidate_threshold = 0.35
+occupation_accept_threshold = 0.55
+occupation_max_candidates = 15
+sector_candidate_threshold = 0.30
+sector_accept_threshold = 0.50
+sector_max_candidates = 15
+sector_use_occupation_crosswalk = true
+
+[llm]
+backend = "llama_cpp"                     # llama_cpp | transformers | openai | none
+hf_repo_id = "Qwen/Qwen2.5-1.5B-Instruct-GGUF"
+hf_filename = "qwen2.5-1.5b-instruct-q4_k_m.gguf"
+# model_path = "/path/to/model.gguf"      # use a local GGUF instead of downloading
+temperature = 0.0
+seed = 42
+n_ctx = 8192
+max_new_tokens = 700
+n_gpu_layers = 0                          # -1 = offload everything (needs a GPU build of llama-cpp-python)
+constrained_decoding = true
+require_verified_evidence = true
+# OpenAI-compatible server (Ollama default shown):
+api_base = "http://localhost:11434/v1"
+api_model = "qwen2.5:1.5b-instruct"
